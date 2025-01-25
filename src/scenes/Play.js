@@ -15,17 +15,26 @@ class Play extends Phaser.Scene {
       this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0)
       // add rocket (p1)
       this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0)
+
+
       // add spaceships (x3)
       this.ship01 = new Spaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'spaceship', 0, 30).setOrigin(0, 0)
       this.ship02 = new Spaceship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2, 'spaceship', 0, 20).setOrigin(0, 0)
       this.ship03 = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'spaceship', 0, 10).setOrigin(0, 0)
+
+      // MOD add small fast spaceship (x1) VERY TINY!
+      this.ship04 = new SmallSpaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'smallSpaceship', 0, 100).setOrigin(0, 0)
+
+      
       // define keys
       keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
       keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
       keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+      
       // initialize score
       this.p1Score = 0
+      
       // display score
       let scoreConfig = {
         fontFamily: 'Courier',
@@ -40,17 +49,80 @@ class Play extends Phaser.Scene {
         fixedWidth: 100
       }
       this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig)
+
+     /* // Mod - 3 points - Display the time remaining (in seconds) on the screen (3)
+      this.remainingTime = 60 // initalizing remaining time to 60 bc 60000 is the milliseconds in Menu.js
+      //creating the timer in Play.js for the viewable game
+      this.
+
+      */
+
+
+
+
+
+
       // GAME OVER flag
       this.gameOver = false
+
+
+     /* this.remainingTime = 60;
+      this.timerText = this.add.text(
+      game.config.width - borderUISize - borderPadding - 100,
+      borderUISize + borderPadding * 2,
+      this.remainingTime,
+      scoreConfig
+      );
+
+    this.gameOver = false;
+
+    // Timer
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.remainingTime--;
+        this.timerText.setText(this.remainingTime);
+
+        if (this.remainingTime <= 0) {
+          this.timerText.text = 0;
+          this.handleGameOver();
+        }
+      },
+      loop: true,
+    });
+  }
+      */
   
       // 60-second play clock
       scoreConfig.fixedWidth = 0
       this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-        this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5)
-        this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
-        this.gameOver = true
-      }, null, this)
+        this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+        this.gameOver = true;
+  
+
+      // Mod 1 point, create high score
+        if (!game.highScore || this.p1Score > game.highScore) {
+          game.highScore = this.p1Score;
+        }
+      }, null, this);
+
+      // mod 1 point, make it go faster after a certain point
+      this.time.delayedCall(30000, () => {
+        this.ship01.moveSpeed += 3;
+        this.ship02.moveSpeed += 3;
+        this.ship03.moveSpeed += 3;
+      }), null, this
+
+      // mod 1 point, make it go faster after a certain point
+      //this.time.delayedCall(30000, () => {
+       // this.ship04.moveSpeed += 3;
+     // }), null, this
+
     }
+
+    
+    
   
     update() {
       // check key input for restart
@@ -66,6 +138,13 @@ class Play extends Phaser.Scene {
         this.ship01.update()           // update spaceships (x3)
         this.ship02.update()
         this.ship03.update()
+        this.ship04.update()
+      }
+
+      // check collisions MOD (5)
+      if (this.checkCollision(this.p1Rocket, this.ship04)) {
+        this.p1Rocket.reset()
+        this.shipExplode(this.ship04)
       }
       // check collisions
       if (this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -80,6 +159,18 @@ class Play extends Phaser.Scene {
         this.p1Rocket.reset()
         this.shipExplode(this.ship01)
       }
+
+  
+
+     /* if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        // easy mode
+        game.settings = {
+          spaceshipSpeed: 3,
+          gameTimer: 10000
+        }
+          */
+
+    
     }
   
     checkCollision(rocket, ship) {

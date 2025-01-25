@@ -1,3 +1,4 @@
+
 class Menu extends Phaser.Scene {
     constructor() {
       super("menuScene")
@@ -8,6 +9,8 @@ class Menu extends Phaser.Scene {
       this.load.image('rocket', './assets/rocket.png')
       this.load.image('spaceship', './assets/spaceship.png')
       this.load.image('starfield', './assets/starfield.png')
+      // Mod (5) - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points
+      this.load.image('smallSpaceship', './assets/smallSpaceship.png')
       // load spritesheet
       this.load.spritesheet('explosion', './assets/explosion.png', {
         frameWidth: 64,
@@ -45,6 +48,24 @@ class Menu extends Phaser.Scene {
         },
         fixedWidth: 0
       };
+
+
+      let diffColor = {
+        fontFamily: 'Courier',
+        fontSize: '28px',
+        backgroundColor: '#f3915c',
+        color: '#b60c0c',
+        align: 'right',
+        padding: {
+          top: 5,
+          bottom: 5
+        },
+        fixedWidth: 0
+      };
+
+    
+
+  
   
       // display menu text
       this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
@@ -52,9 +73,13 @@ class Menu extends Phaser.Scene {
       menuConfig.backgroundColor = '#00FF00';
       menuConfig.color = '#000';
       this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
+  
       // define keys
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
       keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
+      // Mod 1 point, create high score
+      this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize * 4, `High Score: ${game.highScore || 0}`, diffColor).setOrigin(0.5);
     }
   
     update() {
