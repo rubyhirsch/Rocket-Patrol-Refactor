@@ -1,3 +1,9 @@
+// Name: Ruby Hirsch
+// Date: 1/24/25
+//Mods done
+// (1 point) >> high score 
+// (5 point) >> small spaceship
+
 let config = {
     type: Phaser.AUTO,
     width: 640, 

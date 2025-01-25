@@ -115,9 +115,9 @@ class Play extends Phaser.Scene {
       }), null, this
 
       // mod 1 point, make it go faster after a certain point
-      //this.time.delayedCall(30000, () => {
-       // this.ship04.moveSpeed += 3;
-     // }), null, this
+      this.time.delayedCall(30000, () => {
+        this.ship04.moveSpeed += 3;
+      }), null, this
 
     }
 
