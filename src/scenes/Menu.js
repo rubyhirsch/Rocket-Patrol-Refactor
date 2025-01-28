@@ -37,7 +37,7 @@ class Menu extends Phaser.Scene {
       });
   
       let menuConfig = {
-        fontFamily: 'Courier',
+        fontFamily: 'Arial',
         fontSize: '28px',
         backgroundColor: '#F3B141',
         color: '#843605',
@@ -51,7 +51,7 @@ class Menu extends Phaser.Scene {
 
 
       let diffColor = {
-        fontFamily: 'Courier',
+        fontFamily: 'Arial',
         fontSize: '28px',
         backgroundColor: '#f3915c',
         color: '#b60c0c',

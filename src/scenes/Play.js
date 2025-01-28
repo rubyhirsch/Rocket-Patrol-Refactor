@@ -50,6 +50,32 @@ class Play extends Phaser.Scene {
       }
       this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig)
 
+      // for 3 point mod - display the time remaining >> initalizing the time
+      this.remainingTime = 60
+        // displaying time
+      this.timerText = this.add.text(
+        game.config.width - borderUISize - borderPadding - 100,
+        borderUISize + borderPadding * 2, 
+        this.remainingTime,
+        scoreConfig
+      )
+        // timer
+      this.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          if (this.remainingTime > 0) {
+              this.remainingTime--
+              this.timerText.setText(this.remainingTime)
+            }
+          if (this.remainingTime <= 0) {
+            this.timerText.setText(0);
+            this.handleGameOver()
+          }
+        },
+        loop: true,
+      })
+
+
      /* // Mod - 3 points - Display the time remaining (in seconds) on the screen (3)
       this.remainingTime = 60 // initalizing remaining time to 60 bc 60000 is the milliseconds in Menu.js
       //creating the timer in Play.js for the viewable game
@@ -202,6 +228,13 @@ class Play extends Phaser.Scene {
       this.scoreLeft.text = this.p1Score
       this.sound.play('sfx-explosion')
   
+
+    }
+
+    handleGameOver() {
+      this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', { fontFamily: 'Courier', fontSize: '28px', color: '#843605' }).setOrigin(0.5);
+      this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or ← for Menu', { fontFamily: 'Courier', fontSize: '28px', color: '#843605' }).setOrigin(0.5);
+      this.gameOver = true;
     }
     
   }
