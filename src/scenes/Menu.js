@@ -20,7 +20,11 @@ class Menu extends Phaser.Scene {
       })
       // load audio
       this.load.audio('sfx-select', './assets/sfx-select.wav')
-      this.load.audio('sfx-explosion', './assets/sfx-explosion.wav')
+      // Mod 3 - Create 4 new explosion sound effects and randomize which one plays on impact
+      this.load.audio('sfx-explosion1', './assets/sound.wav')
+      this.load.audio('sfx-explosion2', './assets/soundz.wav')
+      this.load.audio('sfx-explosion3', './assets/sound2.wav')
+      this.load.audio('sfx-explosion4', './assets/sound3.wav')
       this.load.audio('sfx-shot', './assets/sfx-shot.wav')
     }
   
@@ -35,30 +39,32 @@ class Menu extends Phaser.Scene {
         }),
         frameRate: 30
       });
+
+      // MOD - 
   
       let menuConfig = {
-        fontFamily: 'Arial',
+        fontFamily: 'Impact',
         fontSize: '28px',
-        backgroundColor: '#F3B141',
-        color: '#843605',
+        backgroundColor: '#FFFFFF',
+        color: '#000000',
         align: 'right',
         padding: {
-          top: 5,
-          bottom: 5
+          top: 3,
+          bottom: 4
         },
         fixedWidth: 0
       };
 
 
       let diffColor = {
-        fontFamily: 'Arial',
+        fontFamily: 'Impact',
         fontSize: '28px',
-        backgroundColor: '#f3915c',
-        color: '#b60c0c',
+        backgroundColor: '#ED6B6B',
+        color: '#8E2828',
         align: 'right',
         padding: {
-          top: 5,
-          bottom: 5
+          top: 3,
+          bottom: 4
         },
         fixedWidth: 0
       };
@@ -68,18 +74,21 @@ class Menu extends Phaser.Scene {
   
   
       // display menu text
-      this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
-      this.add.text(game.config.width / 2, game.config.height / 2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
-      menuConfig.backgroundColor = '#00FF00';
-      menuConfig.color = '#000';
-      this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
-  
+      this.add.text(game.config.width / 1.5, game.config.height / 4 - borderUISize - borderPadding, ' ROCKET PATROL ', diffColor).setOrigin(0.5);
+      this.add.text(game.config.width / 2.75, game.config.height / 4, ' Use ←→ arrows to move & (F) to fire ', menuConfig).setOrigin(0.5);
+      //menuConfig.backgroundColor = '#00FF00';
+     // menuConfig.color = '#000';
+
+      this.add.text(game.config.width / 2, game.config.height / 4 + borderUISize + borderPadding, ' Press ← for Novice or → for Expert ', diffColor).setOrigin(0.5);
+      diffColor.backgroundColor = '#00FF00';
+      diffColor.color = '#000';
+
       // define keys
       keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
       keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 
       // Mod 1 point, create high score
-      this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize * 4, `High Score: ${game.highScore || 0}`, diffColor).setOrigin(0.5);
+      this.add.text(game.config.width / 6 , game.config.height / 6.3 + borderUISize * 4, ` High Score: ${game.highScore || 0} `, menuConfig).setOrigin(0.5);
     }
   
     update() {

@@ -75,49 +75,8 @@ class Play extends Phaser.Scene {
         loop: true,
       })
 
-
-     /* // Mod - 3 points - Display the time remaining (in seconds) on the screen (3)
-      this.remainingTime = 60 // initalizing remaining time to 60 bc 60000 is the milliseconds in Menu.js
-      //creating the timer in Play.js for the viewable game
-      this.
-
-      */
-
-
-
-
-
-
       // GAME OVER flag
       this.gameOver = false
-
-
-     /* this.remainingTime = 60;
-      this.timerText = this.add.text(
-      game.config.width - borderUISize - borderPadding - 100,
-      borderUISize + borderPadding * 2,
-      this.remainingTime,
-      scoreConfig
-      );
-
-    this.gameOver = false;
-
-    // Timer
-    this.time.addEvent({
-      delay: 1000,
-      callback: () => {
-        this.remainingTime--;
-        this.timerText.setText(this.remainingTime);
-
-        if (this.remainingTime <= 0) {
-          this.timerText.text = 0;
-          this.handleGameOver();
-        }
-      },
-      loop: true,
-    });
-  }
-      */
   
       // 60-second play clock
       scoreConfig.fixedWidth = 0
@@ -226,7 +185,10 @@ class Play extends Phaser.Scene {
       // score add and text update
       this.p1Score += ship.points
       this.scoreLeft.text = this.p1Score
-      this.sound.play('sfx-explosion')
+      // MOD 3 - Create 4 new explosion sound effects and randomize which one plays on impact
+      const BOOMS = ['sfx-explosion1', 'sfx-explosion2', 'sfx-explosion3', 'sfx-explosion4'];
+      const randomBOOM = Phaser.Math.Between(0, BOOMS.length - 1);
+      this.sound.play(BOOMS[randomBOOM]);
   
 
     }
